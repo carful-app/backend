@@ -42,7 +42,7 @@ return [
          * The `prefix` and `domain` configuration options are optional.
          */
         // 'prefix' => 'api',
-        'domain' => 'graphql.' . env('APP_DOMAIN', 'localhost'),
+        'domain' => 'api.' . env('APP_DOMAIN', 'localhost'),
     ],
 
     /*

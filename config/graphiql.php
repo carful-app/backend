@@ -18,7 +18,7 @@ return [
         'name' => 'graphiql',
         // 'middleware' => ['web']
         // 'prefix' => 'api',
-        'domain' => 'graphql.' . env('APP_DOMAIN', 'localhost'),
+        'domain' => 'api.' . env('APP_DOMAIN', 'localhost'),
     ],
 
     /*
