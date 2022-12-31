@@ -16,7 +16,7 @@ return [
     'route' => [
         'uri' => '/graphiql',
         'name' => 'graphiql',
-        // 'middleware' => ['web']
+        'middleware' => ['web'],
         // 'prefix' => 'api',
         'domain' => 'api.' . env('APP_DOMAIN', 'localhost'),
     ],

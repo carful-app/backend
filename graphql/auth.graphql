@@ -1,0 +1,25 @@
+input LoginInput {
+    username: String!
+    password: String!
+}
+
+type AuthPayload {
+    access_token: String!
+    user: User!
+}
+
+input SocialLoginInput {
+    provider: String! @rules(apply: ["required"])
+    code: String! @rules(apply: ["required"])
+}
+
+extend type Mutation {
+    "Log in to a new session and get the user."
+    login(input: LoginInput! @spread): User!
+
+    "Log out from the current session, showing the user one last time."
+    logout: User @guard
+
+    "Log in with social provider."
+    socialLogin(input: SocialLoginInput! @spread): AuthPayload!
+}
