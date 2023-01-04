@@ -9,6 +9,7 @@ use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\JsonResponse;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -34,14 +35,20 @@ class AuthController extends Controller
      * Obtain the user information from Provider.
      *
      * @param $provider
-     * @return JsonResponse
      */
-    public function handleProviderCallback($provider)
+    public function handleProviderCallback($provider, Request $request)
     {
         $validated = $this->validateProvider($provider);
         if (!is_null($validated)) {
             return $validated;
         }
+
+        if ($provider == 'google') {
+            if ($request->getHost() == 'localhost') {
+                return redirect(env('APP_URL') . $request->getRequestUri());
+            }
+        }
+
         try {
             $user = Socialite::driver($provider)->stateless()->user();
         } catch (ClientException $exception) {
@@ -67,9 +74,11 @@ class AuthController extends Controller
                 'avatar' => $user->getAvatar()
             ]
         );
-        $token = $userCreated->createToken('token-name')->plainTextToken;
 
-        return response()->json($userCreated, 200, ['Access-Token' => $token]);
+        Auth::login($userCreated);
+        $request->session()->regenerate();
+
+        return redirect('http://app.carful.local:8080/');
     }
 
     /**

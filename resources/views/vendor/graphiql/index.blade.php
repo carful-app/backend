@@ -37,8 +37,7 @@
                 subscriptionUrl: '{{ config('graphiql.subscription-endpoint') }}',
             }),
             defaultHeaders: JSON.stringify({
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                "Authorization" : "Bearer "
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
             }),
         }),
         document.getElementById('graphiql'),

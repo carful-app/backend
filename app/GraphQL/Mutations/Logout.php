@@ -17,10 +17,6 @@ class Logout
     {
         $guard = Auth::guard(Arr::first(config('sanctum.guard')));
 
-        if (!$guard->attempt($args)) {
-            throw new Error('Invalid credentials.');
-        }
-
         /** @var \App\Models\User|null $user */
         $user = $guard->user();
         $guard->logout();
