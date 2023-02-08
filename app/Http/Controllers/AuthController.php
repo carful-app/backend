@@ -78,7 +78,7 @@ class AuthController extends Controller
         Auth::login($userCreated);
         $request->session()->regenerate();
 
-        return redirect('http://app.carful.local:8080/');
+        return redirect('https://app.carful.local:8080/');
     }
 
     /**
