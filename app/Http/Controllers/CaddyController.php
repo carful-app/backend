@@ -12,6 +12,8 @@ class CaddyController extends Controller
         $authorizedDomains = [
             'api.carful.local\\',
             'api.carful.local',
+            'localhost\\',
+            'localhost',
         ];
 
         if (in_array($request->query('domain'), $authorizedDomains)) {
