@@ -9,10 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class Login
 {
-    /**
-     * @param  null  $_
-     * @param  array<string, mixed>  $args
-     */
     public function __invoke($_, array $args): User
     {
         $guard = Auth::guard(Arr::first(config('sanctum.guard')));

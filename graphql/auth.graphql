@@ -3,10 +3,20 @@ input LoginInput {
     password: String!
 }
 
+input RegisterInput {
+    name: String! @rules(apply: ["required", "string"])
+    email: String! @rules(apply: ["required", "email", "unique:users,email"])
+    password: String! @rules(apply: ["required", "confirmed", "min:8"])
+    password_confirmation: String!
+}
+
 extend type Mutation {
     "Log in to a new session and get the user."
     login(input: LoginInput! @spread): User!
 
     "Log out from the current session, showing the user one last time."
     logout: User @guard
+
+    "Register a new user and log in to a new session."
+    register(input: RegisterInput! @spread): User!
 }
