@@ -1,0 +1,50 @@
+"Account of a person who utilizes this application."
+type User {
+    "Unique primary key."
+    id: ID!
+
+    "Non-unique name."
+    name: String!
+
+    "Unique email address."
+    email: String!
+
+    "When the email was verified."
+    email_verified_at: DateTime
+
+    "When the account was created."
+    created_at: DateTime!
+
+    "When the account was last updated."
+    updated_at: DateTime!
+
+    "Providers that are linked to this user."
+    providers: [Provider!]! @hasMany
+}
+
+"Provider that is linked to a user."
+type Provider {
+    "Unique primary key."
+    id: ID!
+
+    "The name of the provider."
+    provider: String!
+
+    "The provider id of the user."
+    provider_id: String!
+
+    "The unique identifier of the user at the provider."
+    user_id: String!
+
+    "The avatar of the user at the provider."
+    avatar: String
+
+    "When the provider was linked to the user."
+    created_at: DateTime!
+
+    "When the provider was last updated."
+    updated_at: DateTime!
+
+    "The user that is linked to this provider."
+    user: User! @belongsTo
+}

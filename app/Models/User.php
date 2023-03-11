@@ -44,6 +44,11 @@ class User extends Authenticatable
 
     public function providers()
     {
-        return $this->hasMany(Provider::class, 'user_id', 'id');
+        return $this->hasMany(Provider::class);
+    }
+
+    public function cars()
+    {
+        return $this->hasMany(Car::class);
     }
 }

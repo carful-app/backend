@@ -1,0 +1,35 @@
+extend type Query {
+    "Get all cars of the auth user"
+    cars: [Car!]! @all @whereAuth(relation: "user")
+}
+
+extend type Mutation {
+    "Create a new car"
+    createCar(input: CreateCarInput!): Car! @create
+
+    "Update a car"
+    updateCar(input: UpdateCarInput!): Car! @update
+
+    "Delete a car"
+    deleteCar(input: DeleteCarInput!): Car! @delete
+
+    "Set a car as default for the user"
+    setDefaultCar(id: ID): [Car!]!
+}
+
+type Car {
+    "The ID of the car"
+    id: ID!
+
+    "The name of the car"
+    name: String!
+
+    "The registration number of the car"
+    registrationNumber: String! @rename(attribute: "registration_number")
+
+    "Is the car default for the user"
+    isDefault: Boolean! @rename(attribute: "is_default")
+
+    "The user who owns the car"
+    user: User! @belongsTo
+}
