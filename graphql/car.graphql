@@ -1,20 +1,46 @@
-extend type Query {
+extend type Query @guard {
     "Get all cars of the auth user"
     cars: [Car!]! @all @whereAuth(relation: "user")
 }
 
-extend type Mutation {
+extend type Mutation @guard {
     "Create a new car"
-    createCar(input: CreateCarInput!): Car! @create
+    createCar(input: CreateCarInput! @spread): Car!
+        @create
+        @inject(context: "user.id", name: "user_id")
 
     "Update a car"
-    updateCar(input: UpdateCarInput!): Car! @update
+    updateCar(input: UpdateCarInput! @spread): Car! @update
 
     "Delete a car"
-    deleteCar(input: DeleteCarInput!): Car! @delete
+    deleteCar(input: DeleteCarInput! @spread): Car! @delete
 
     "Set a car as default for the user"
     setDefaultCar(id: ID): [Car!]!
+}
+
+input CreateCarInput {
+    "The name of the car"
+    name: String!
+
+    "The registration number of the car"
+    registrationNumber: String! @rename(attribute: "registration_number")
+}
+
+input UpdateCarInput {
+    "The ID of the car"
+    id: ID!
+
+    "The name of the car"
+    name: String
+
+    "The registration number of the car"
+    registrationNumber: String @rename(attribute: "registration_number")
+}
+
+input DeleteCarInput {
+    "The ID of the car"
+    id: ID!
 }
 
 type Car {
