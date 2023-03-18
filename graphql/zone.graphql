@@ -1,0 +1,42 @@
+extend type Query @guard {
+    cities: [City!]! @all
+    city(slug: String! @where): City @find
+    zones(city_id: ID! @where): [Zone!] @find
+}
+
+type City {
+    id: ID!
+    name: String!
+    slug: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type Zone {
+    id: ID!
+    name: String!
+    slug: String!
+    city: City!
+    coordsArray: [[Float!]!]!
+    coordinates: [ZoneCoordinates!]!
+    zoneType: ZoneType!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type ZoneCoordinates {
+    id: ID!
+    zone: Zone!
+    latitude: Float!
+    longitude: Float!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type ZoneType {
+    id: ID!
+    name: String!
+    slug: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}

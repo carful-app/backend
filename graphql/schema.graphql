@@ -1,6 +1,7 @@
 #import user.graphql
 #import auth.graphql
 #import car.graphql
+#import zone.graphql
 
 "A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
 scalar DateTime
