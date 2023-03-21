@@ -1,7 +1,7 @@
 extend type Query @guard {
     cities: [City!]! @all
     city(slug: String! @where): City @find
-    zones(city_id: ID! @where): [Zone!] @find
+    zones(city_id: ID! @where): [Zone!] @all
 }
 
 type City {
