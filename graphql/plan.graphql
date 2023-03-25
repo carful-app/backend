@@ -1,0 +1,70 @@
+extend type Query {
+    plans: [Plan!]! @all
+    plan(id: ID!): Plan! @find
+}
+
+type Plan {
+    "ID of the plan"
+    id: ID!
+
+    "Name of the plan"
+    name: String!
+
+    "Slug of the plan"
+    slug: String!
+
+    "Price of the plan"
+    price: Float!
+
+    "Price of the plan formatted"
+    priceFormated: String!
+
+    "Currency of the plan"
+    currency: Currency! @belongsTo
+
+    "Plan type of the plan"
+    planType: PlanType! @belongsTo
+
+    "Number of uses allowed in the plan"
+    uses: Int!
+
+    "Create date of the plan"
+    createdAt: DateTime! @rename(attribute: "created_at")
+
+    "Update date of the plan"
+    updatedAt: DateTime! @rename(attribute: "updated_at")
+}
+
+type PlanType {
+    "ID of the plan type"
+    id: ID!
+
+    "Name of the plan type"
+    name: String!
+
+    "Slug of the plan type"
+    slug: String!
+
+    "Create date of the plan type"
+    createdAt: DateTime! @rename(attribute: "created_at")
+
+    "Update date of the plan type"
+    updatedAt: DateTime! @rename(attribute: "updated_at")
+}
+
+type Currency {
+    "ID of the currency"
+    id: ID!
+
+    "Name of the currency"
+    name: String!
+
+    "Symbol of the currency"
+    symbol: String!
+
+    "Create date of the currency"
+    createdAt: DateTime! @rename(attribute: "created_at")
+
+    "Update date of the currency"
+    updatedAt: DateTime! @rename(attribute: "updated_at")
+}

@@ -9,8 +9,8 @@ type City {
     id: ID!
     name: String!
     slug: String!
-    createdAt: DateTime!
-    updatedAt: DateTime!
+    createdAt: DateTime! @rename(attribute: "created_at")
+    updatedAt: DateTime! @rename(attribute: "updated_at")
 }
 
 type Zone {
@@ -26,31 +26,60 @@ type Zone {
     startDay: DayOfWeek! @belongsTo
     endDay: DayOfWeek! @belongsTo
     zoneType: ZoneType! @belongsTo
-    createdAt: DateTime!
-    updatedAt: DateTime!
+    createdAt: DateTime! @rename(attribute: "created_at")
+    updatedAt: DateTime! @rename(attribute: "updated_at")
 }
 
 type ZoneCoordinates {
+    "The ID of the ZoneCoordinates"
     id: ID!
+
+    "The ID of the Zone"
     zone: Zone! @belongsTo
+
+    "The latitude of the ZoneCoordinates"
     latitude: Float!
+
+    "The longitude of the ZoneCoordinates"
     longitude: Float!
-    createdAt: DateTime!
-    updatedAt: DateTime!
+
+    "The created_at of the ZoneCoordinates"
+    createdAt: DateTime! @rename(attribute: "created_at")
+
+    "The updated_at of the ZoneCoordinates"
+    updatedAt: DateTime! @rename(attribute: "updated_at")
 }
 
 type ZoneType {
+    "The ID of the ZoneType"
     id: ID!
+
+    "The name of the ZoneType"
     name: String!
+
+    "The slug of the ZoneType"
     slug: String!
-    createdAt: DateTime!
-    updatedAt: DateTime!
+
+    "The created_at of the ZoneType"
+    createdAt: DateTime! @rename(attribute: "created_at")
+
+    "The updated_at of the ZoneType"
+    updatedAt: DateTime! @rename(attribute: "updated_at")
 }
 
 type DayOfWeek {
+    "The ID of the DayOfWeek"
     id: ID!
+
+    "The name of the DayOfWeek"
     day: String!
+
+    "The slug of the DayOfWeek"
     slug: String!
-    createdAt: DateTime!
-    updatedAt: DateTime!
+
+    "The created_at of the DayOfWeek"
+    createdAt: DateTime! @rename(attribute: "created_at")
+
+    "The updated_at of the DayOfWeek"
+    updatedAt: DateTime! @rename(attribute: "updated_at")
 }

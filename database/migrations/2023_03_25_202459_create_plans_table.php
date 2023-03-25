@@ -13,15 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('cities', function (Blueprint $table) {
+        Schema::create('plans', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->integer('uses');
+            $table->foreignId('plan_type_id')->constrained();
+            $table->unsignedFloat('price');
+            $table->foreignId('currency_id')->constrained();
             $table->string('slug')->unique();
             $table->timestamps();
-        });
-
-        Schema::table('zones', function (Blueprint $table) {
-            $table->foreignId('city_id')->constrained();
         });
     }
 
@@ -32,9 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('zones', function (Blueprint $table) {
-            $table->dropForeign(['city_id']);
-        });
-        Schema::dropIfExists('cities');
+        Schema::dropIfExists('plans');
     }
 };

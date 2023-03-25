@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             ZoneSeeder::class,
+            PlanSeeder::class,
         ]);
     }
 }
