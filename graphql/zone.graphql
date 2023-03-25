@@ -2,6 +2,7 @@ extend type Query @guard {
     cities: [City!]! @all
     city(slug: String! @where): City @find
     zones(city_id: ID! @where): [Zone!] @all
+    zone(id: ID! @where): Zone @find
 }
 
 type City {
@@ -16,17 +17,22 @@ type Zone {
     id: ID!
     name: String!
     slug: String!
-    city: City!
+    city: City! @belongsTo
     coordsArray: [[Float!]!]!
-    coordinates: [ZoneCoordinates!]!
-    zoneType: ZoneType!
+    coordinates: [ZoneCoordinates!]! @hasMany
+    hours: [Int!]!
+    startTime: DateTime! @rename(attribute: "start_time")
+    endTime: DateTime! @rename(attribute: "end_time")
+    startDay: DayOfWeek! @belongsTo
+    endDay: DayOfWeek! @belongsTo
+    zoneType: ZoneType! @belongsTo
     createdAt: DateTime!
     updatedAt: DateTime!
 }
 
 type ZoneCoordinates {
     id: ID!
-    zone: Zone!
+    zone: Zone! @belongsTo
     latitude: Float!
     longitude: Float!
     createdAt: DateTime!
@@ -36,6 +42,14 @@ type ZoneCoordinates {
 type ZoneType {
     id: ID!
     name: String!
+    slug: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type DayOfWeek {
+    id: ID!
+    day: String!
     slug: String!
     createdAt: DateTime!
     updatedAt: DateTime!

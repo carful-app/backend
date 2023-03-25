@@ -16,7 +16,13 @@ return new class extends Migration
         Schema::create('zones', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('slug');
+            $table->integer('min_hour');
+            $table->integer('max_hour');
+            $table->integer('hour_interval');
+            $table->time('start_time');
+            $table->time('end_time');
+            $table->foreignId('start_day_of_week_id')->constrained('day_of_weeks');
+            $table->foreignId('end_day_of_week_id')->constrained('day_of_weeks');
             $table->timestamps();
         });
     }

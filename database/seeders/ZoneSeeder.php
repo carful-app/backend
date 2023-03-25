@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\City;
+use App\Models\DayOfWeek;
 use App\Models\Zone;
 use App\Models\ZoneType;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -17,16 +18,23 @@ class ZoneSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([CitySeeder::class, ZoneTypeSeeder::class]);
+        $this->call([CitySeeder::class, ZoneTypeSeeder::class, DayOfWeekSeeder::class]);
 
         $varna = City::where('slug', 'varna')->first();
         $blueZoneType = ZoneType::where('slug', 'blue')->first();
+        $daysOfWeek = DayOfWeek::get()->pluck('id', 'slug')->toArray();
 
         $varnaZone = Zone::create([
             'name' => 'Varna Blue Zone',
-            'slug' => 'zones.varna_blue',
             'city_id' => $varna->id,
             'zone_type_id' => $blueZoneType->id,
+            'min_hour' => 1,
+            'max_hour' => 3,
+            'hour_interval' => 1,
+            'start_time' => '09:00:00',
+            'end_time' => '20:00:00',
+            'start_day_of_week_id' => $daysOfWeek[DayOfWeek::MONDAY],
+            'end_day_of_week_id' => $daysOfWeek[DayOfWeek::SUNDAY],
         ]);
 
         foreach (self::VARNA_BLUE_COORDINATS as $coordinate) {
