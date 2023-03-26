@@ -1,12 +1,12 @@
-input LoginInput {
+input LoginInput @validator {
     email: String!
     password: String!
 }
 
-input RegisterInput {
-    name: String! @rules(apply: ["required", "string"])
-    email: String! @rules(apply: ["required", "email", "unique:users,email"])
-    password: String! @rules(apply: ["required", "confirmed", "min:8"])
+input RegisterInput @validator {
+    name: String!
+    email: String!
+    password: String!
     password_confirmation: String!
 }
 
