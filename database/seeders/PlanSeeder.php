@@ -29,8 +29,8 @@ class PlanSeeder extends Seeder
 
         Plan::insert([
             [
-                'name' => 'Базов месечен',
-                'slug' => 'basic_mountly',
+                'name' => 'Базов',
+                'slug' => Plan::BASIC_MONTHLY,
                 'price' => 5.00,
                 'plan_type_id' => $planTypes[PlanType::MONTHLY],
                 'currency_id' => $currencies[Currency::BGN],
@@ -39,8 +39,8 @@ class PlanSeeder extends Seeder
                 'updated_at' => $now,
             ],
             [
-                'name' => 'Стандартен месечен',
-                'slug' => 'standard_mountly',
+                'name' => 'Стандартен',
+                'slug' => Plan::STANDARD_MONTHLY,
                 'price' => 10.00,
                 'plan_type_id' => $planTypes[PlanType::MONTHLY],
                 'currency_id' => $currencies[Currency::BGN],
@@ -49,8 +49,8 @@ class PlanSeeder extends Seeder
                 'updated_at' => $now,
             ],
             [
-                'name' => 'Премиум месечен',
-                'slug' => 'premium_mountly',
+                'name' => 'Премиум',
+                'slug' => Plan::PREMIUM_MONTHLY,
                 'price' => 15.00,
                 'plan_type_id' => $planTypes[PlanType::MONTHLY],
                 'currency_id' => $currencies[Currency::BGN],
@@ -59,8 +59,8 @@ class PlanSeeder extends Seeder
                 'updated_at' => $now,
             ],
             [
-                'name' => 'Базов еднократен',
-                'slug' => 'basic_one_time_use',
+                'name' => 'Базов',
+                'slug' => Plan::BASIC_ONE_TIME_USE,
                 'price' => 5.00,
                 'plan_type_id' => $planTypes[PlanType::ONE_TIME_USE],
                 'currency_id' => $currencies[Currency::BGN],
@@ -69,8 +69,8 @@ class PlanSeeder extends Seeder
                 'updated_at' => $now,
             ],
             [
-                'name' => 'Стандартен еднократен',
-                'slug' => 'standard_one_time_use',
+                'name' => 'Стандартен',
+                'slug' => Plan::STANDARD_ONE_TIME_USE,
                 'price' => 10.00,
                 'plan_type_id' => $planTypes[PlanType::ONE_TIME_USE],
                 'currency_id' => $currencies[Currency::BGN],
@@ -79,8 +79,8 @@ class PlanSeeder extends Seeder
                 'updated_at' => $now,
             ],
             [
-                'name' => 'Премиум еднократен',
-                'slug' => 'premium_one_time_use',
+                'name' => 'Премиум',
+                'slug' => Plan::PREMIUM_ONE_TIME_USE,
                 'price' => 15.00,
                 'plan_type_id' => $planTypes[PlanType::ONE_TIME_USE],
                 'currency_id' => $currencies[Currency::BGN],

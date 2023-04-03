@@ -8,6 +8,28 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Plan extends Model
 {
+    use SlugTrait;
+
+    const BASIC_MONTHLY = 'basic_mountly';
+    const STANDARD_MONTHLY = 'standard_mountly';
+    const PREMIUM_MONTHLY = 'premium_mountly';
+
+    const BASIC_ONE_TIME_USE = 'basic_one_time_use';
+    const STANDARD_ONE_TIME_USE = 'standard_one_time_use';
+    const PREMIUM_ONE_TIME_USE = 'premium_one_time_use';
+
+    const MONTHLY = [
+        self::BASIC_MONTHLY,
+        self::STANDARD_MONTHLY,
+        self::PREMIUM_MONTHLY,
+    ];
+
+    const ONE_TIME_USE = [
+        self::BASIC_ONE_TIME_USE,
+        self::STANDARD_ONE_TIME_USE,
+        self::PREMIUM_ONE_TIME_USE,
+    ];
+
     protected $fillable = [
         'name',
         'slug',

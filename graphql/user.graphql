@@ -1,3 +1,40 @@
+extend type Query @guard {
+    "Find a single user by an identifying attribute."
+    user(
+        "Search by primary key."
+        id: ID @eq @rules(apply: ["prohibits:email", "required_without:email"])
+
+        "Search by email address."
+        email: String
+            @eq
+            @rules(apply: ["prohibits:id", "required_without:id", "email"])
+    ): User @find
+
+    "List multiple users."
+    users(
+        "Filters by name. Accepts SQL LIKE wildcards `%` and `_`."
+        name: String @where(operator: "like")
+    ): [User!]! @paginate(defaultCount: 10)
+
+    "Auth user."
+    me: User! @auth
+}
+
+input UpdateUserInput {
+    "The id of the user."
+    id: ID! @rules(apply: ["required"])
+
+    "The name of the user."
+    name: String
+
+    "The email address of the user."
+    email: String @rules(apply: ["email"])
+}
+
+extend type Mutation @guard {
+    updateUser(input: UpdateUserInput! @spread): User! @update
+}
+
 "Account of a person who utilizes this application."
 type User {
     "Unique primary key."
@@ -20,6 +57,9 @@ type User {
 
     "Providers that are linked to this user."
     providers: [Provider!]! @hasMany
+
+    "Is user subscribed"
+    isSubscribed: Boolean!
 }
 
 "Provider that is linked to a user."

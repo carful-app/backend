@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class City extends Model
 {
+    use SlugTrait;
+
     protected $fillable = [
         'name',
         'slug',

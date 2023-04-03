@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class DayOfWeek extends Model
 {
+    use SlugTrait;
+
     const MONDAY = 'monday';
     const TUESDAY = 'tuesday';
     const WEDNESDAY = 'wednesday';

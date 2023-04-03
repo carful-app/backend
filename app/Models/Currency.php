@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Currency extends Model
 {
+    use SlugTrait;
+
     const USD = 'usd';
     const EUR = 'eur';
     const BGN = 'bgn';
