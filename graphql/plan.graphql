@@ -3,6 +3,11 @@ extend type Query {
     plan(id: ID!): Plan! @find
 }
 
+extend type Mutation @guard {
+    subscribe(planId: ID!, paymentMethodId: String!): Boolean!
+        @field(resolver: "App\\GraphQL\\Mutations\\SubscribeToPlan")
+}
+
 type Plan {
     "ID of the plan"
     id: ID!
@@ -27,6 +32,9 @@ type Plan {
 
     "Number of uses allowed in the plan"
     uses: Int!
+
+    "Stripe ID of the plan"
+    stripeId: String! @rename(attribute: "stripe_id")
 
     "Create date of the plan"
     createdAt: DateTime! @rename(attribute: "created_at")

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Laravel\Cashier\Cashier;
 
 class Plan extends Model
 {
@@ -36,6 +37,7 @@ class Plan extends Model
         'price',
         'plan_type_id',
         'uses',
+        'stripe_id',
     ];
 
     public function planType(): BelongsTo
@@ -51,13 +53,9 @@ class Plan extends Model
     public function priceFormated(): Attribute
     {
         return Attribute::make(
-            get: fn () =>
-            in_array($this->currency->slug, Currency::BACK_CURRENCIES)
-                ? ($this->price . ' ' . $this->currency->symbol)
-                : (in_array($this->currency->slug, Currency::FRONT_CURRENCIES)
-                    ? ($this->currency->symbol . ' ' . $this->price)
-                    : $this->price
-                ),
+            get: function () {
+                return Cashier::formatAmount($this->price * 100, $this->currency->slug);
+            },
 
             set: fn ($value) => in_array($this->currency->slug, Currency::BACK_CURRENCIES)
                 ? $this->price = (float)str_replace(' ' . $this->currency->symbol, '', $value)

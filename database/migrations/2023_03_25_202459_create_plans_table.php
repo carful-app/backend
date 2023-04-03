@@ -21,6 +21,7 @@ return new class extends Migration
             $table->unsignedFloat('price');
             $table->foreignId('currency_id')->constrained();
             $table->string('slug')->unique();
+            $table->string('stripe_id');
             $table->timestamps();
         });
     }

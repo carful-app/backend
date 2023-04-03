@@ -3,15 +3,21 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Services\PlanService;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Cashier\Billable;
 use Laravel\Sanctum\HasApiTokens;
+
+use function Illuminate\Events\queueable;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, Billable;
 
     /**
      * The attributes that are mass assignable.
@@ -42,6 +48,44 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function isSubscribed(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $planSlugs = PlanService::getAllPlansByType(PlanType::MONTHLY)
+                    ->pluck('slug')
+                    ->toArray();
+
+                $isSubscribed = false;
+
+                foreach ($planSlugs as $planSlug) {
+                    if ($this->subscribed($planSlug)) {
+                        $isSubscribed = true;
+                        break;
+                    }
+                }
+
+                return $isSubscribed;
+            }
+        );
+    }
+
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::created(queueable(function (User $customer) {
+            $customer->createAsStripeCustomer();
+        }));
+
+        static::updated(queueable(function (User $customer) {
+            if ($customer->hasStripeId()) {
+                $customer->syncStripeCustomerDetails();
+            }
+        }));
+    }
 
     public function providers(): HasMany
     {
