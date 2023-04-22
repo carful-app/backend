@@ -1,6 +1,6 @@
 <?php
 
-namespace App\GraphQL\Validators;
+namespace App\GraphQL\Validators\Auth;
 
 use Nuwave\Lighthouse\Validation\Validator;
 

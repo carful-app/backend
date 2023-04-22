@@ -1,6 +1,6 @@
 <?php
 
-namespace App\GraphQL\Mutations;
+namespace App\GraphQL\Mutations\Plans;
 
 use App\Models\Plan;
 use App\Models\User;
@@ -18,8 +18,8 @@ final class SubscribeToPlan
         /** @var User $user */
         $user = auth()->user();
 
-        $user->newSubscription($plan->slug, $plan->stripe_id)
-            ->create($args['paymentMethodId']);
+        // $user->newSubscription($plan->slug, $plan->stripe_id)
+        //     ->create($args['paymentMethodId']);
 
         return true;
     }

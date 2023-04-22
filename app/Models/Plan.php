@@ -54,15 +54,28 @@ class Plan extends Model
     {
         return Attribute::make(
             get: function () {
-                return Cashier::formatAmount($this->price * 100, $this->currency->slug);
+                if (in_array($this->currency->slug, Currency::BACK_CURRENCIES)) {
+                    return $this->price . ' ' . $this->currency->symbol;
+                }
+
+                if (in_array($this->currency->slug, Currency::FRONT_CURRENCIES)) {
+                    return $this->currency->symbol . ' ' . $this->price;
+                }
+
+                return $this->price;
             },
 
-            set: fn ($value) => in_array($this->currency->slug, Currency::BACK_CURRENCIES)
-                ? $this->price = (float)str_replace(' ' . $this->currency->symbol, '', $value)
-                : (in_array($this->currency->slug, Currency::FRONT_CURRENCIES)
-                    ? $this->price = (float)str_replace($this->currency->symbol . ' ', '', $value)
-                    : $this->price = (float)$value
-                ),
+            set: function ($value) {
+                if (in_array($this->currency->slug, Currency::BACK_CURRENCIES)) {
+                    $this->price = (float)str_replace(' ' . $this->currency->symbol, '', $value);
+                }
+
+                if (in_array($this->currency->slug, Currency::FRONT_CURRENCIES)) {
+                    $this->price = (float)str_replace($this->currency->symbol . ' ', '', $value);
+                }
+
+                return $this->price = (float)$value;
+            },
         );
     }
 }

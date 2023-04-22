@@ -17,7 +17,7 @@ use function Illuminate\Events\queueable;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, Billable;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -69,22 +69,6 @@ class User extends Authenticatable
                 return $isSubscribed;
             }
         );
-    }
-
-    /**
-     * The "booted" method of the model.
-     */
-    protected static function booted(): void
-    {
-        static::created(queueable(function (User $customer) {
-            $customer->createAsStripeCustomer();
-        }));
-
-        static::updated(queueable(function (User $customer) {
-            if ($customer->hasStripeId()) {
-                $customer->syncStripeCustomerDetails();
-            }
-        }));
     }
 
     public function providers(): HasMany

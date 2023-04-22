@@ -1,6 +1,8 @@
 <?php
 
-namespace App\GraphQL\Mutations;
+namespace App\GraphQL\Mutations\Cars;
+
+use App\Models\User;
 
 final class SetDefaultCar
 {
@@ -10,7 +12,9 @@ final class SetDefaultCar
      */
     public function __invoke($_, array $args)
     {
-        $cars = auth()->user()->cars()->get();
+        /** @var User $user */
+        $user = auth()->user();
+        $cars = $user->cars()->get();
 
         foreach ($cars as $car) {
             $car->is_default = $car->id == $args['id'];

@@ -17,6 +17,7 @@ extend type Mutation @guard {
 
     "Set a car as default for the user"
     setDefaultCar(id: ID): [Car!]!
+        @field(resolver: "App\\GraphQL\\Mutations\\Cars\\SetDefaultCar")
 }
 
 input CreateCarInput {
