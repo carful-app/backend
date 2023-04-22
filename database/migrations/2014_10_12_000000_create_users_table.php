@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
+            $table->string("stripe_id")->nullable();
+            $table->boolean("is_complete")->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

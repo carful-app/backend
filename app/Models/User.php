@@ -5,15 +5,14 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Services\PlanService;
+use App\Services\StripeService;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Cashier\Billable;
 use Laravel\Sanctum\HasApiTokens;
 
-use function Illuminate\Events\queueable;
 
 class User extends Authenticatable
 {
@@ -28,6 +27,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'stripe_id',
+        'is_complete',
     ];
 
     /**
@@ -47,7 +48,20 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'is_complete' => 'boolean',
     ];
+
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::creating(function ($user) {
+            if (!$user->stripe_id) {
+                StripeService::createCustomer($user);
+            }
+        });
+    }
 
     public function isSubscribed(): Attribute
     {

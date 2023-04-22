@@ -21,7 +21,6 @@ final class Register
                 'email_verified_at' => now(),
                 'name' => $args['name'],
                 'password' => Hash::make($args['password']),
-                'status' => true,
             ]
         );
 

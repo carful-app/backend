@@ -4,8 +4,15 @@ extend type Query {
 }
 
 extend type Mutation @guard {
-    subscribe(planId: ID!, paymentMethodId: String!): Boolean!
-        @field(resolver: "App\\GraphQL\\Mutations\\Plans\\SubscribeToPlan")
+    subscribe(planId: ID!, paymentIntentId: String!): Boolean!
+        @field(
+            resolver: "App\\GraphQL\\Mutations\\Plans\\SubscribeToPlan@subscribe"
+        )
+
+    createPaymentIntent(planId: ID!): String!
+        @field(
+            resolver: "App\\GraphQL\\Mutations\\Plans\\SubscribeToPlan@createPaymentIntent"
+        )
 }
 
 type Plan {

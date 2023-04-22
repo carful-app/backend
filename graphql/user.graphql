@@ -60,6 +60,12 @@ type User {
 
     "Is user subscribed"
     isSubscribed: Boolean!
+
+    "Stripe customer id"
+    stripe_id: String
+
+    "Is complete"
+    isComplete: Boolean! @rename(attribute: "is_complete")
 }
 
 "Provider that is linked to a user."

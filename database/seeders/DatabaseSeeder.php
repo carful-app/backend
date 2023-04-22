@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             ->create([
                 'name' => 'Test User',
                 'email' => 'test@example.com',
+                'stripe_id' => 'cus_NlHZR2wucUMeGq',
             ]);
 
         $this->call([
