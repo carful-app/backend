@@ -13,14 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('plans', function (Blueprint $table) {
+        Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->integer('uses');
-            $table->foreignId('plan_type_id')->constrained();
-            $table->unsignedFloat('price');
-            $table->foreignId('currency_id')->constrained();
-            $table->string('slug')->unique();
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('plan_id')->constrained();
             $table->string('stripe_id');
             $table->timestamps();
         });
@@ -33,10 +29,10 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('plans', function (Blueprint $table) {
-            $table->dropForeign(['plan_type_id', 'currency_id']);
+        Schema::table('subscriptions', function (Blueprint $table) {
+            $table->dropForeign(['user_id', 'plan_id']);
         });
 
-        Schema::dropIfExists('plans');
+        Schema::dropIfExists('subscriptions');
     }
 };

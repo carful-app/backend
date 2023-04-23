@@ -3,10 +3,13 @@
 namespace App\GraphQL\Mutations\Plans;
 
 use App\Models\Plan;
+use App\Models\Subscription;
 use App\Models\User;
+use Stripe\Customer;
 use Stripe\PaymentIntent;
 use Stripe\PaymentMethod;
 use Stripe\Price;
+use Stripe\Subscription as StripeSubscription;
 
 final class SubscribeToPlan
 {
@@ -22,10 +25,38 @@ final class SubscribeToPlan
         $user = auth()->user();
 
         $paymentIntent = PaymentIntent::retrieve($args['paymentIntentId']);
-        $paymentMethod = PaymentMethod::retrieve($paymentIntent->payment_method);
-        $paymentMethod->attach(['customer' => $user->stripe_id]);
 
-        // todo subscribe user to plan
+        $paymentMethod = PaymentMethod::retrieve($paymentIntent->payment_method);
+        $paymentMethod->attach(
+            ['customer' => $user->stripe_id]
+        );
+
+        Customer::update($user->stripe_id, [
+            'invoice_settings' => [
+                'default_payment_method' => $paymentIntent->payment_method,
+            ],
+        ]);
+
+        $price = Price::retrieve($plan->stripe_id);
+
+        $stripeSubscription = StripeSubscription::create([
+            'customer' => $user->stripe_id,
+            'items' => [
+                [
+                    'price' => $price->id,
+                ],
+            ],
+            'off_session' => true,
+        ]);
+
+        $subscription = new Subscription();
+        $subscription->user()->associate($user);
+        $subscription->plan()->associate($plan);
+        $subscription->stripe_id = $stripeSubscription->id;
+        $subscription->save();
+
+        $user->is_complete = true;
+        $user->save();
 
         return true;
     }
