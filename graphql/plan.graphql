@@ -83,3 +83,23 @@ type Currency {
     "Update date of the currency"
     updatedAt: DateTime! @rename(attribute: "updated_at")
 }
+
+type Transaction {
+    "ID of the transaction"
+    id: ID!
+
+    "User of the transaction"
+    user: User! @belongsTo
+
+    "Type of the transaction"
+    type: TransactionType!
+
+    "Symbol of the transaction"
+    amount: Float!
+
+    "Create date of the transaction"
+    createdAt: DateTime! @rename(attribute: "created_at")
+
+    "Update date of the transaction"
+    updatedAt: DateTime! @rename(attribute: "updated_at")
+}

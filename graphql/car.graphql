@@ -41,7 +41,7 @@ input UpdateCarInput {
 
 input DeleteCarInput {
     "The ID of the car"
-    id: ID!
+    id: ID! @whereKey
 }
 
 type Car {

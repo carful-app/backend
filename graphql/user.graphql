@@ -66,6 +66,9 @@ type User {
 
     "Is complete"
     isComplete: Boolean! @rename(attribute: "is_complete")
+
+    "Transactions"
+    transactions: [Transaction!]! @hasMany
 }
 
 "Provider that is linked to a user."
