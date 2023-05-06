@@ -69,6 +69,9 @@ type User {
 
     "Transactions"
     transactions: [Transaction!]! @hasMany
+
+    "Balance"
+    balance: Float!
 }
 
 "Provider that is linked to a user."

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enum\TransactionType;
+use App\Events\TransactionCreated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,8 +18,11 @@ class Transaction extends Model
     ];
 
     protected $casts = [
-        // 'type' => TransactionType::class,
         'amount' => 'float',
+    ];
+
+    protected $dispatchesEvents = [
+        'created' => TransactionCreated::class,
     ];
 
     public function user(): BelongsTo

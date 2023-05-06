@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->string("stripe_id")->nullable();
             $table->boolean("is_complete")->default(false);
+            $table->float("balance")->default(0.00);
             $table->rememberToken();
             $table->timestamps();
         });
