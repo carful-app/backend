@@ -6,7 +6,6 @@ use App\Enum\TransactionType;
 use GraphQL\Type\Definition\EnumType;
 use Illuminate\Support\ServiceProvider;
 use Nuwave\Lighthouse\Schema\TypeRegistry;
-use Nuwave\Lighthouse\Schema\Types\LaravelEnumType;
 
 class GraphQLServiceProvider extends ServiceProvider
 {

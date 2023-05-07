@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\Stripe\SubscriptionUpdated;
 use App\Events\TransactionCreated;
+use App\Listeners\Stripe\HandleSubscriptionUpdated;
 use App\Listeners\UpdateUserBalance;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -23,6 +25,10 @@ class EventServiceProvider extends ServiceProvider
 
         TransactionCreated::class => [
             UpdateUserBalance::class,
+        ],
+
+        SubscriptionUpdated::class => [
+            HandleSubscriptionUpdated::class,
         ],
     ];
 

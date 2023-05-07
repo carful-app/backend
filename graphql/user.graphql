@@ -68,7 +68,9 @@ type User {
     isComplete: Boolean! @rename(attribute: "is_complete")
 
     "Transactions"
-    transactions: [Transaction!]! @hasMany
+    transactions: [Transaction!]!
+        @hasMany
+        @orderBy(column: "created_at", direction: DESC)
 
     "Balance"
     balance: Float!
