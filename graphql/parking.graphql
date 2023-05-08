@@ -1,0 +1,24 @@
+type Mutation @guard {
+    parkCar(input: ParkCarInput! @spread): ParkCar!
+        @field(resolver: "App\\GraphQL\\Mutations\\Parking\\ParkCar@parkCar")
+}
+
+type ParkCar {
+    id: ID!
+    car: Car! @belongsTo
+    user: User! @belongsTo
+    transactions: [Transaction!]! @belongsToMany
+    latitude: Float!
+    longitude: Float!
+    startTime: DateTime! @rename(attribute: "start_time")
+    endTime: DateTime! @rename(attribute: "end_time")
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+input ParkCarInput {
+    carId: ID!
+    hours: Int!
+    latitude: Float!
+    longitude: Float!
+}
