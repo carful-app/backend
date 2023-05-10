@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Test User',
                 'email' => 'test@example.com',
                 'stripe_id' => 'cus_NlXt84UZFMrYwl',
+                'is_complete' => true
             ]);
 
         $this->call([

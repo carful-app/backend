@@ -25,7 +25,7 @@ class StripeWebhookController extends Controller
             return response('Invalid signature', 400);
         }
 
-        if ($event->type === Event::CUSTOMER_SUBSCRIPTION_UPDATED) {
+        if ($event->type === Event::CUSTOMER_SUBSCRIPTION_UPDATED || $event->type === Event::CUSTOMER_SUBSCRIPTION_CREATED) {
             SubscriptionUpdated::dispatch($event);
         }
 
