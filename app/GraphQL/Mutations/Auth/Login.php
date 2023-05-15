@@ -14,7 +14,7 @@ class Login
         $guard = Auth::guard(Arr::first(config('sanctum.guard')));
 
         if (!$guard->attempt(Arr::only($args, ['email', 'password']))) {
-            throw new Error('Invalid credentials.');
+            throw new Error(__('auth.failed'));
         }
 
         /**
