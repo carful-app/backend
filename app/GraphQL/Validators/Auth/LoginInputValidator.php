@@ -27,8 +27,8 @@ final class LoginInputValidator extends Validator
     public function attributes(): array
     {
         return [
-            'email' => 'Email',
-            'password' => 'Password',
+            'email' => __('validation.attributes.email'),
+            'password' => __('validation.attributes.password'),
         ];
     }
 }

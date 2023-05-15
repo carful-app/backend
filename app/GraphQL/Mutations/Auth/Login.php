@@ -2,8 +2,8 @@
 
 namespace App\GraphQL\Mutations\Auth;
 
+use App\Exceptions\LoginException;
 use App\Models\User;
-use Error;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,7 +14,7 @@ class Login
         $guard = Auth::guard(Arr::first(config('sanctum.guard')));
 
         if (!$guard->attempt(Arr::only($args, ['email', 'password']))) {
-            throw new Error(__('auth.failed'));
+            throw new LoginException(__('auth.failed'));
         }
 
         /**

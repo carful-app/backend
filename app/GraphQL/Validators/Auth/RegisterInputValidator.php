@@ -28,9 +28,9 @@ final class RegisterInputValidator extends Validator
     public function attributes(): array
     {
         return [
-            'name' => 'Name',
-            'email' => 'Email',
-            'password' => 'Password',
+            'name' => __('validation.attributes.name'),
+            'email' => __('validation.attributes.email'),
+            'password' => __('validation.attributes.password'),
         ];
     }
 }
