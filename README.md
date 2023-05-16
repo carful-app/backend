@@ -9,5 +9,5 @@
 2. Start stripe local webhook
 
 ```console
-    stripe lisnte --forward-to https://localhost/stripe/webhook
+    stripe listen --forward-to https://localhost/stripe/webhook
 ```
