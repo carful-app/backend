@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Enum\TransactionType;
 use App\Events\TransactionCreated;
+use App\Exceptions\InsufficientBalanceException;
 
 class UpdateUserBalance
 {
@@ -35,6 +36,10 @@ class UpdateUserBalance
                 break;
 
             case TransactionType::PAYMENT:
+                if ($user->balance < $transaction->amount) {
+                    throw new InsufficientBalanceException(__('parking.insufficient_balance'));
+                }
+
                 $user->balance -= $transaction->amount;
                 break;
 

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Car;
+use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -28,13 +29,20 @@ class DatabaseSeeder extends Seeder
             ->create([
                 'name' => 'Test User',
                 'email' => 'test@example.com',
-                'stripe_id' => 'cus_NlXt84UZFMrYwl',
-                'is_complete' => true
+                'stripe_id' => 'cus_Nm2K0rMEI8I0xh',
+                'is_complete' => true,
+                'balance' => 5
             ]);
 
         $this->call([
             ZoneSeeder::class,
             PlanSeeder::class,
+        ]);
+
+        Subscription::create([
+            'plan_id' => 1,
+            'user_id' => 1,
+            'stripe_id' => 'sub_1N9mz9EoqrltX8fUepos21sv',
         ]);
     }
 }

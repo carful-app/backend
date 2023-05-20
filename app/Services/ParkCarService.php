@@ -6,6 +6,7 @@ use App\Enum\TransactionType;
 use App\Models\Car;
 use App\Models\ParkCar;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class ParkCarService
 {
@@ -14,22 +15,43 @@ class ParkCarService
         $startTime = now();
         $endTime = now()->addHours($hours);
 
-        $transaction = $user->transactions()->create([
-            'type' => TransactionType::PAYMENT,
-            'amount' => $hours,
-        ]);
+        try {
+            DB::beginTransaction();
 
-        $parkCar = ParkCar::create([
-            'user_id' => $user->id,
-            'car_id' => $car->id,
-            'latitude' => $latitude,
-            'longitude' => $longitude,
-            'start_time' => $startTime,
-            'end_time' => $endTime,
-        ]);
+            $transaction = $user->transactions()->create([
+                'type' => TransactionType::PAYMENT,
+                'amount' => $hours,
+            ]);
 
-        $parkCar->transactions()->attach($transaction);
+            $parkCar = ParkCar::create([
+                'user_id' => $user->id,
+                'car_id' => $car->id,
+                'latitude' => $latitude,
+                'longitude' => $longitude,
+                'start_time' => $startTime,
+                'end_time' => $endTime,
+            ]);
+
+            $parkCar->transactions()->attach($transaction);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
 
         return $parkCar;
+    }
+
+    public static function getLastParkCar(User $user): ?ParkCar
+    {
+        $now = now();
+
+        return $user
+            ->parkCars()
+            ->latest()
+            ->where('start_time', '<', $now)
+            ->where('end_time', '>', $now)
+            ->first();
     }
 }

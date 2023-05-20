@@ -19,8 +19,8 @@ return new class extends Migration
             $table->foreignId('car_id')->constrained();
             $table->string('latitude');
             $table->string('longitude');
-            $table->time('start_time');
-            $table->time('end_time');
+            $table->dateTime('start_time');
+            $table->dateTime('end_time');
             $table->timestamps();
         });
     }

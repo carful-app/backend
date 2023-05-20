@@ -1,4 +1,11 @@
-type Mutation @guard {
+extend type Query @guard {
+    lastParkCar: ParkCar
+        @field(
+            resolver: "App\\GraphQL\\Queries\\Parking\\ParkCar@getLastParkCar"
+        )
+}
+
+extend type Mutation @guard {
     parkCar(input: ParkCarInput! @spread): ParkCar!
         @field(resolver: "App\\GraphQL\\Mutations\\Parking\\ParkCar@parkCar")
 }
