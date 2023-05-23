@@ -1,0 +1,19 @@
+input PushSubscriptionInput {
+    # @validator(
+    #     class: "App\\GraphQL\\Validators\\PushSubscription\\PushSubscriptionInputValidator"
+    # )
+    endpoint: String!
+    keys: PushSubscriptionKeysInput!
+}
+
+input PushSubscriptionKeysInput {
+    p256dh: String!
+    auth: String!
+}
+
+extend type Mutation @guard {
+    pushSubscription(subscription: PushSubscriptionInput!): Boolean!
+        @field(
+            resolver: "App\\GraphQL\\Mutations\\PushSubscription\\PushSubscriptionMutation@pushSubscription"
+        )
+}

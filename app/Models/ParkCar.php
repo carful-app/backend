@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\ParkCarCreated;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -15,6 +16,15 @@ class ParkCar extends Model
         'longitude',
         'start_time',
         'end_time',
+    ];
+
+    protected $casts = [
+        'start_time' => 'datetime',
+        'end_time' => 'datetime',
+    ];
+
+    protected $dispatchesEvents = [
+        'created' => ParkCarCreated::class,
     ];
 
     public function user(): BelongsTo

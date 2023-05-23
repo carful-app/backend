@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\ParkCarCreated;
 use App\Events\Stripe\SubscriptionUpdated;
 use App\Events\TransactionCreated;
+use App\Listeners\SendNotificationWithUpdates;
 use App\Listeners\Stripe\HandleSubscriptionUpdated;
 use App\Listeners\UpdateUserBalance;
 use Illuminate\Auth\Events\Registered;
@@ -25,6 +27,10 @@ class EventServiceProvider extends ServiceProvider
 
         TransactionCreated::class => [
             UpdateUserBalance::class,
+        ],
+
+        ParkCarCreated::class => [
+            SendNotificationWithUpdates::class,
         ],
 
         SubscriptionUpdated::class => [
