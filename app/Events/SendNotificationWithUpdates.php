@@ -6,7 +6,7 @@ use App\Models\ParkCar;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ParkCarCreated
+class SendNotificationWithUpdates
 {
     use Dispatchable, SerializesModels;
 

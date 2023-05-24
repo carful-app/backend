@@ -2,16 +2,14 @@
 
 namespace App\Notifications;
 
-use App\Models\Car;
 use App\Models\ParkCar;
-use Carbon\Carbon;
+use DateInterval;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\WebPush\WebPushChannel;
 use NotificationChannels\WebPush\WebPushMessage;
 
-class ParkCarNotification extends Notification implements ShouldQueue
+class ParkCarNotification extends Notification
 {
     use Queueable;
     /**
@@ -19,7 +17,7 @@ class ParkCarNotification extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(private ParkCar $parkCar)
+    public function __construct(private ParkCar $parkCar, private DateInterval $diff)
     {
     }
 
@@ -36,7 +34,7 @@ class ParkCarNotification extends Notification implements ShouldQueue
 
     public function toWebPush($notifiable, $notification)
     {
-        $diff = now()->diff($this->parkCar->end_time);
+        $diff = $this->diff;
 
         if ($diff->h > 0) {
             $time_left = $diff->format('%H:%I');
@@ -44,7 +42,7 @@ class ParkCarNotification extends Notification implements ShouldQueue
             $time_left = $diff->format('%I:%S');
         }
 
-        $message = (new WebPushMessage)
+        return (new WebPushMessage)
             ->title(__('parking.park_car.title', ["registration_number" => $this->parkCar->car->registration_number]))
             ->body(__('parking.park_car.body', ["time_left" => $time_left]))
             ->tag("park-car-{$this->parkCar->id}")
@@ -58,19 +56,5 @@ class ParkCarNotification extends Notification implements ShouldQueue
                 'type' => 'park-car',
             ])
             ->action(__('parking.park_car.action.add_time'), 'park-car-add-time');
-
-        return $message;
-    }
-
-    /**
-     * Determine which queues should be used for each notification channel.
-     *
-     * @return array<string, string>
-     */
-    public function viaQueues(): array
-    {
-        return [
-            WebPushChannel::class => 'web-push-queue',
-        ];
     }
 }

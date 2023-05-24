@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Events\ParkCarCreated;
+use App\Events\SendNotificationWithUpdates;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -23,9 +23,14 @@ class ParkCar extends Model
         'end_time' => 'datetime',
     ];
 
-    protected $dispatchesEvents = [
-        'created' => ParkCarCreated::class,
-    ];
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($item) {
+            SendNotificationWithUpdates::dispatch($item);
+        });
+    }
 
     public function user(): BelongsTo
     {
