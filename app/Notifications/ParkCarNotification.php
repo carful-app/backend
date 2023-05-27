@@ -51,9 +51,7 @@ class ParkCarNotification extends Notification
                 'silent' => true
             ])
             ->data([
-                'registration_number' => $this->parkCar->car->registration_number,
-                'endTime' => $this->parkCar->end_time->toDateTimeString(),
-                'type' => 'park-car',
+                'shouldClose' => $diff->invert == 1
             ])
             ->action(__('parking.park_car.action.add_time'), 'park-car-add-time');
     }

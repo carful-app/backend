@@ -48,11 +48,11 @@ class SendNotificationWithUpdatesListener implements ShouldQueue
 
         $diff = now()->diff($parkCar->end_time);
 
+        $user->notify(new ParkCarNotification($parkCar, $diff));
+
         if ($diff->invert == 1) {
             return;
         }
-
-        $user->notify(new ParkCarNotification($parkCar, $diff));
 
         SendNotificationWithUpdates::dispatch($parkCar);
     }
