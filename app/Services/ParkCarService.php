@@ -54,4 +54,31 @@ class ParkCarService
             ->where('end_time', '>', $now)
             ->first();
     }
+
+    public static function addTime(ParkCar $parkCar, int $hours): ParkCar
+    {
+        $endTime = $parkCar->end_time->addHours($hours);
+
+        try {
+            DB::beginTransaction();
+
+            $transaction = $parkCar->user->transactions()->create([
+                'type' => TransactionType::PAYMENT,
+                'amount' => $hours,
+            ]);
+
+            $parkCar->update([
+                'end_time' => $endTime,
+            ]);
+
+            $parkCar->transactions()->attach($transaction);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+
+        return $parkCar;
+    }
 }

@@ -8,6 +8,9 @@ extend type Query @guard {
 extend type Mutation @guard {
     parkCar(input: ParkCarInput! @spread): ParkCar!
         @field(resolver: "App\\GraphQL\\Mutations\\Parking\\ParkCar@parkCar")
+
+    addTime(input: AddTimeInput! @spread): ParkCar!
+        @field(resolver: "App\\GraphQL\\Mutations\\Parking\\ParkCar@addTime")
 }
 
 type ParkCar {
@@ -28,4 +31,8 @@ input ParkCarInput {
     hours: Int!
     latitude: Float!
     longitude: Float!
+}
+
+input AddTimeInput {
+    hours: Int!
 }

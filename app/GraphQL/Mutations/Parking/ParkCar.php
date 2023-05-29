@@ -23,4 +23,15 @@ final class ParkCar
 
         return ParkCarService::parkCar($user, $car, $hours, $latitude, $longitude);
     }
+
+    /**
+     * @param  null  $_
+     * @param  array{}  $args
+     */
+    public function addTime($_, array $args)
+    {
+        $parkCar = ParkCarService::getLastParkCar(auth()->user());
+
+        return ParkCarService::addTime($parkCar, $args['hours']);
+    }
 }
