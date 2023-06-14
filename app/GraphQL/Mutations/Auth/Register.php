@@ -24,6 +24,10 @@ final class Register
             ]
         );
 
+        if ($userCreated->wasRecentlyCreated) {
+            $userCreated->refresh();
+        }
+
         $guard->login($userCreated);
 
         return $userCreated;
