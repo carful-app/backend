@@ -20,6 +20,7 @@ return new class extends Migration
             $table->boolean('is_default')->default(false);
             $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

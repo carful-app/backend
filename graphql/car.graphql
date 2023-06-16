@@ -1,6 +1,6 @@
 extend type Query @guard {
     "Get all cars of the auth user"
-    cars: [Car!]! @all @whereAuth(relation: "user")
+    cars: [Car!]! @all @whereAuth(relation: "user") @softDeletes
 }
 
 extend type Mutation @guard {
