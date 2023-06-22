@@ -29,7 +29,7 @@ type Plan {
     price: Float!
 
     "Price of the plan formatted"
-    priceFormated: String!
+    priceFormatted: String!
 
     "Currency of the plan"
     currency: Currency! @belongsTo

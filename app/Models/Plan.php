@@ -50,7 +50,7 @@ class Plan extends Model
         return $this->belongsTo(Currency::class);
     }
 
-    public function priceFormated(): Attribute
+    public function priceFormatted(): Attribute
     {
         return Attribute::make(
             get: function () {
