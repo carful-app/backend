@@ -43,7 +43,7 @@ class AuthController extends Controller
             return $validated;
         }
 
-        if ($provider == 'google') {
+        if (app()->environment('local') && $provider == 'google') {
             if ($request->getHost() == 'localhost') {
                 return redirect(env('APP_URL') . $request->getRequestUri());
             }
@@ -78,7 +78,7 @@ class AuthController extends Controller
         Auth::login($userCreated);
         $request->session()->regenerate();
 
-        return redirect('https://app.carful.local:8080/');
+        return redirect(env('WEB_APP_URL', 'https://app.carful.local:8080/'));
     }
 
     /**
